@@ -9,6 +9,7 @@ namespace QuickBooksSharp
     {
         Task<TResponse> GetAsync<TResponse>(Url url);
         Task<TResponse> PostAsync<TResponse>(Url url, object content);
+        Task<TResponse> PostAsync<TResponse>(Url url);
         Task<HttpResponseMessage> SendAsync(Func<HttpRequestMessage> makeRequest);
         Task<TResponse> SendAsync<TResponse>(Func<HttpRequestMessage> makeRequest);
     }

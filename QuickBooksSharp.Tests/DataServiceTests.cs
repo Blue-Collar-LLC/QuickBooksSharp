@@ -501,6 +501,17 @@ namespace QuickBooksSharp.Tests
         }
 
         [TestMethod]
+        public async Task SendInvoiceTest()
+        {
+            var response = await _service.QueryAsync<Invoice>("SELECT * FROM Invoice MAXRESULTS 1");
+
+            Assert.IsTrue(response.Response!.Entities!.Length > 0);
+
+            var sentInvoice = await _service.SendInvoice(response.Response!.Entities![0].Id!);
+            Assert.IsTrue(sentInvoice.Response.EmailStatus == EmailStatusEnum.EmailSent);
+        }
+
+        [TestMethod]
         public async Task CreateTaxCodeAndRateAsync()
         {
             var taxAgencyName = "Test Tax Agency";

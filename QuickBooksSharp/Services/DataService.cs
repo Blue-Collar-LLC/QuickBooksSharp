@@ -166,6 +166,27 @@ namespace QuickBooksSharp
             return await _client.PostAsync<TEntity>(url, e);
         }
 
+        public async Task<IntuitResponse<Invoice>> SendInvoice(string invoiceId, string? sendTo = null)
+        {
+            var url = new Url(_serviceUrl).AppendPathSegment($"invoice/{invoiceId}/send");
+
+            if (!string.IsNullOrEmpty(sendTo))
+            {
+                url = url.SetQueryParam("sendTo", sendTo);
+            }
+
+            var res = await _client.PostAsync<IntuitResponse>(url);
+            return new IntuitResponse<Invoice>
+            {
+                RequestId = res.requestId,
+                Time = res.time,
+                Status = res.status,
+                Warnings = res.Warnings,
+                Fault = res.Fault,
+                Response = (Invoice?)res.IntuitObject
+            };
+        }
+
         /// <remarks>
         /// Unlike other entities, TaxService is a special case where the return type is not an IntuitResponse but the entity itself.
         /// </remarks>

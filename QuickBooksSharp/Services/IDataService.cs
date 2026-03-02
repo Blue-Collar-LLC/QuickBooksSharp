@@ -34,6 +34,16 @@ namespace QuickBooksSharp
         /// <param name="invoiceId">Unique identifier for this object</param>
         /// <returns>This resource returns the specified object in the response body as an Adobe Portable Document Format (PDF) file. The resulting PDF file is formatted according to custom form styles in the company settings.</returns>
         Task<Stream> GetInvoicePDFAsync(string invoiceId);
+        
+        /// <summary>
+        /// Sends an invoice to a customer or vendor. This will update the Invoice.EmailStatus to EmailSent and Invoice.DeliveryInfo
+        /// will be populated with the sending information.
+        /// </summary>
+        /// <param name="invoiceId">Id of the invoice to send</param>
+        /// <param name="sendTo">Email address to send the invoice to. Optional. If not provided, the Invoice.BillEmail address will be used.
+        /// If provided, this will replace the Invoice.BillEmail with this value</param>
+        /// <returns>The updated invoice after sending information</returns>
+        Task<IntuitResponse<Invoice>> SendInvoice(string invoiceId, string? sendTo = null);
 
         Task<TaxService> PostTaxServiceAsync(TaxService taxService);
     }

@@ -65,6 +65,12 @@ namespace QuickBooksSharp
             return await this.SendAsync<TResponse>(makeRequest);
         }
 
+        public async Task<TResponse> PostAsync<TResponse>(Url url)
+        {
+            Func<HttpRequestMessage> makeRequest = () => new HttpRequestMessage(HttpMethod.Post, url);
+            return await this.SendAsync<TResponse>(makeRequest);
+        }
+
         public async Task<TResponse> SendAsync<TResponse>(Func<HttpRequestMessage> makeRequest)
         {
             var response = await this.SendAsync(makeRequest);
